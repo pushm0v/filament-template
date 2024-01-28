@@ -1,0 +1,27 @@
+FROM tangramor/nginx-php8-fpm
+
+# copy source code
+COPY laravel/ /var/www/html
+ARG APKMIRROR=""
+
+# start.sh will set desired timezone with $TZ
+ENV TZ Asia/Jakarta
+
+# China php composer mirror: https://mirrors.cloud.tencent.com/composer/
+ENV COMPOSERMIRROR=""
+# China npm mirror: https://registry.npmmirror.com
+ENV NPMMIRROR=""
+
+# start.sh will replace default web root from /var/www/html to $WEBROOT
+ENV WEBROOT /var/www/html/public
+
+# start.sh will use redis as session store with docker container name $PHP_REDIS_SESSION_HOST
+ENV PHP_REDIS_SESSION_HOST redis
+
+# start.sh will create laravel storage folder structure if $CREATE_LARAVEL_STORAGE = 1
+ENV CREATE_LARAVEL_STORAGE "0"
+
+RUN apk add --no-cache --virtual .build-deps gcc g++ libc-dev make \
+    && apk del .build-deps \
+    && chown -Rf nginx:nginx /var/www/html \
+    && chmod -R 755 /var/www/html/storage

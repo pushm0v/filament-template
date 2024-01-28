@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  app:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    image: app-name:tag
+    image: pushm0v/laravel-php-fpm:8.2
+    container_name: app-name
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./laravel:/var/www
+    networks:
+      - app-name
+  db:
+    image: postgres:14-alpine
+    container_name: app-name-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=app-name
+    volumes:
+      - ./docker/postgresql:/var/lib/postgresql/data
+    networks:
+      - app-name
+    ports:
+      - 5432:5432
+  nginx:
+    image: nginx:stable-alpine
+    container_name: app-name-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./laravel:/var/www
+      - ./docker/conf/nginx-local.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-name
+networks:
+  app-name:
+    driver: bridge
