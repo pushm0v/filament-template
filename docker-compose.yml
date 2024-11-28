@@ -5,7 +5,7 @@ services:
 #      context: ./
 #      dockerfile: Dockerfile
 #    image: app-name:tag
-    image: pushm0v/laravel-php-fpm:8.2
+    image: pushm0v/php:8.3-fpm-alpine
     container_name: app-name
     restart: unless-stopped
     working_dir: /var/www

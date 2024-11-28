@@ -1,4 +1,4 @@
-FROM tangramor/nginx-php8-fpm
+FROM tangramor/nginx-php8-fpm:php8.3.13_node22.11.0
 
 # copy source code
 COPY laravel/ /var/www/html
