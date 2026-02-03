@@ -1,11 +1,11 @@
 version: "3.7"
 services:
   app:
-#    build:
-#      context: ./
-#      dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: Dockerfile-prod
 #    image: app-name:tag
-    image: pushm0v/php:8.3-fpm-alpine
+    # image: pushm0v/php:8.3-fpm-alpine
     container_name: app-name
     restart: unless-stopped
     working_dir: /var/www
