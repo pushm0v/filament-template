@@ -4,6 +4,9 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile-prod
+    ports:
+      - 8000:80
+    platform: linux/x86_64
 #    image: app-name:tag
     # image: pushm0v/php:8.3-fpm-alpine
     container_name: app-name
@@ -14,7 +17,7 @@ services:
     networks:
       - app-name
   db:
-    image: postgres:14-alpine
+    image: postgres:17-alpine
     container_name: app-name-db
     restart: unless-stopped
     environment:
@@ -27,17 +30,17 @@ services:
       - app-name
     ports:
       - 5432:5432
-  nginx:
-    image: nginx:stable-alpine
-    container_name: app-name-nginx
-    restart: unless-stopped
-    ports:
-      - 8000:80
-    volumes:
-      - ./laravel:/var/www
-      - ./docker/conf/nginx-local.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-name
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   container_name: app-name-nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8000:80
+  #   volumes:
+  #     - ./laravel:/var/www
+  #     - ./docker/conf/nginx-local.conf:/etc/nginx/conf.d/default.conf
+  #   networks:
+  #     - app-name
 networks:
   app-name:
     driver: bridge
